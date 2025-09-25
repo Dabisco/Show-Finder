@@ -1,0 +1,161 @@
+<%- include("partials/header.ejs") %>
+<section class="show-page container">
+  <!-- Hero -->
+  <div class="show-hero" style="background-image: url('<%= show.image?.original %>')">
+    <div class="overlay"></div>
+    <div class="show-thumbnail">
+      <img src="<%= show.image?.original %>" />
+    </div>
+    <span class="show-name"><%= show.name %></span>
+    <% const rawDate = show.premiered %>
+    <% const year = new Date(rawDate).getFullYear() %>
+    <span class="show-year"><%= year %></span>
+    <!--star ratings-->
+    <% let stars; %>
+    <!-- Convert rating to 5-star rating -->
+    <% if (show.rating?.average) { %>
+    <% if (!Number.isInteger(show.rating?.average)) { %>
+    <% stars = Math.round(show.rating?.average); %>
+    <% } else { %>
+    <% stars = show.rating?.average; %>
+    <% } %>
+    <% stars = stars / 2; %>
+    <% } %>
+    <!-- Render 5-star rating -->
+    <div class="show-page-stars">
+      <% for (let i = 1; i <= 5; i++) { %>
+      <% if (i <= Math.floor(stars)) { %>
+      <!-- Full star -->
+      <span>
+        <svg class="star full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 .587l3.668 7.568L24 9.75l-6 5.847 
+                 1.417 8.268L12 19.896l-7.417 3.969L6 15.597 
+                 0 9.75l8.332-1.595z" />
+        </svg>
+      </span>
+      <% } else if (i === Math.ceil(stars) && stars % 1 !== 0) { %>
+      <!-- Half Star -->
+      <span>
+        <svg class="star half" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="half-gradient" x1="0" x2="100%" y1="0" y2="0">
+              <stop offset="50%" stop-color="gold" />
+              <stop offset="50%" stop-color="lightgray" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#half-gradient)" d="M12 .587l3.668 7.568L24 9.75l-6 5.847 
+                 1.417 8.268L12 19.896l-7.417 3.969L6 15.597 
+                 0 9.75l8.332-1.595z" />
+        </svg>
+      </span>
+      <% } else { %>
+      <!-- Empty Star -->
+      <span>
+        <svg class="star empty" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 .587l3.668 7.568L24 9.75l-6 5.847 
+                 1.417 8.268L12 19.896l-7.417 3.969L6 15.597 
+                 0 9.75l8.332-1.595z" />
+        </svg>
+      </span>
+      <% } %>
+      <% } %>
+    </div>
+    <!-- show number rating -->
+    <span class="show-number-rating"><%= show.rating?.average %>/10</span>
+  </div>
+  <!-- Show genre -->
+  <div class="container-small genre">
+    <div class="genre-container">
+      <% show.genres.forEach((genre) => { %>
+      <span class="show-genre"><%= genre.toUpperCase() %></span>
+      <% }); %>
+    </div>
+
+    <div data-favorite-id="<%= show.id %>" class="fav-btn unfavorited">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+      </svg>
+      <span class="">Add to Favourites</span>
+    </div>
+
+  </div>
+
+
+  <!-- Show Overview, episodes, cast,.... -->
+  <div class="container-small props">
+    <div class="show-prop">
+      <span class="active-prop">Overview</span>
+      <span>Episodes</span>
+      <span>Cast</span>
+    </div>
+  </div>
+
+  <!-- Show Overview -->
+  <div class="container-small overview">
+    <span class="summary-title">Summary</span>
+    <div class="summary-text"><%- show.summary %></div>
+    <div class="show-info">
+      <h3 class="info-title">Show Info</h3>
+      <span class="show-network"><b>Network:</b> <%= show.network?.name.toUpperCase() %></span>
+      <span class="show-schedule"><b>Schedule: </b><%= show.schedule?.days %> at <%= show.schedule?.time %></span>
+      <span class="show-status"><b>Status:</b> <%= show.status %></span>
+
+    </div>
+  </div>
+
+
+  <!-- Find number of seasons for each show -->
+  <% let season_Counter = episodes[0].season %>
+  <% episodes.forEach((episode) => { %>
+  <% if (episode.season !== season_Counter) { %>
+  <% season_Counter += 1; %>
+  <% } %>
+  <% }) %>
+
+  <!-- Show Episodes -->
+  <div class="container-small episodes no-display">
+    <% for (let i = 1; i <= season_Counter; i++ ) { %>
+    <h3 class="season-number">Season <%= i %></h3>
+    <% episodes.forEach((episode) => { %>
+    <% if (episode.season === (i)) { %>
+    <div class="episode-container">
+      <div class="episode-thumbnail">
+        <img src="<%= episode.image?.medium %>" />
+      </div>
+
+      <div class="episode-props">
+        <span class="episode-number"><%= episode.number %>. Episode <%= episode.number %></span>
+        <span class="episode-airdate"><%= episode.airdate %></span>
+        <div class="episode-summary"><%- episode.summary %></div>
+      </div>
+    </div>
+    <% } %>
+    <% }) %>
+
+    <% } %>
+  </div>
+
+  <!-- Show Cast -->
+  <div class="container-small cast no-display">
+    <div class="cast-grid">
+      <% cast.forEach((actor) => { %>
+      <div class="actor">
+        <div class="actor-image">
+          <img src="<%= actor.person?.image?.medium %>" />
+        </div>
+
+        <div class="actor-details">
+          <span class="actor-name"><%= actor.person?.name %></span>
+          <span class="actor-character"><%= actor.character?.name %></span>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+
+
+</section>
+</main>
+</body>
+
+</html>

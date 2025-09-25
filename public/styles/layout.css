@@ -1,0 +1,133 @@
+/*
+ LAYOUT HELPERS
+*/
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  /* max-width: 1200px; */
+  width: 95%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  /* border: 1px solid; */
+}
+
+.container-small {
+  margin-right: auto;
+  margin-left: auto;
+  width: 90%;
+  /* padding-right: 1rem;
+  padding-left: 1rem; */
+}
+
+/* 
+GRID SYSTEM 
+*/
+
+.grid {
+  display: grid;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-auto {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/*
+ FLEX-SYSTEM 
+*/
+
+.flex {
+  display: flex;
+}
+
+/*
+ DIRECTION 
+*/
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
+
+/* DIRECTION */
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-no-wrap {
+  flex-wrap: nowrap;
+}
+
+/* MAIN AXIS ALIGNMENT */
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+/* CROSS AXIS ALIGNMENT */
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-stretch {
+  align-items: stretch;
+}
+
+/* FLEX ITEM BEHAVIOUR */
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-no-shrink {
+  flex-shrink: 0;
+}

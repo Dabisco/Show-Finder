@@ -1,0 +1,94 @@
+<%- include("partials/header.ejs") %>
+<h1 class="home-title">Find Your Next Favourite Show!</h1>
+<p class="home-title-text">
+  Explore thousands of TV shows. Search by name, discover popular series,
+  and keep<br />track of your favorites.
+</p>
+
+<!-- Search bar -->
+<form class="search-form" action="/search" method="GET">
+  <input type="text" name="show" placeholder="Search for a TV show..." />
+  <button type="submit" class="search-button">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    </svg>
+  </button>
+</form>
+
+<!-- Show grid -->
+<section class="home-grid container">
+  <span class="grid-text">Popular Shows</span>
+  <div class="movies-grid">
+    <% if (locals.shows) { %>
+    <% shows.forEach((show) => { %>
+    <% let stars; %>
+    <a href="/shows/<%= show.id %>" class="show-link">
+      <div class="card">
+        <!-- <div class="card-overlay"></div> -->
+        <span class="show-summary"><%- show.summary %></span>
+        <div class="show-thumbnail"><img src="<%= show.image?.medium %>" />
+          <div class="card-overlay"></div>
+        </div>
+        <span class="show-name"><%= show.name %></span>
+        <% if (show.rating.average) { %>
+        <% if (!Number.isInteger(show.rating.average)) { %>
+        <% stars = Math.round(show.rating.average); %>
+        <% } else { %>
+        <% stars = show.rating.average; %>
+        <% } %>
+        <% stars = stars / 2; %>
+        <% } %>
+        <div class="show-star-ratings">
+          <% for (let i = 1; i <= 5; i++) { %>
+
+          <% if (i <= Math.floor(stars)) { %>
+          <!-- Full star -->
+          <svg class="star full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 .587l3.668 7.568L24 9.75l-6 5.847 
+                 1.417 8.268L12 19.896l-7.417 3.969L6 15.597 
+                 0 9.75l8.332-1.595z" />
+          </svg>
+          <% } else if (i === Math.ceil(stars) && stars % 1 !== 0) { %>
+          <!-- Half Star -->
+          <svg class="star half" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <defs>
+              <linearGradient id="half-gradient" x1="0" x2="100%" y1="0" y2="0">
+                <stop offset="50%" stop-color="gold" />
+                <stop offset="50%" stop-color="lightgray" />
+              </linearGradient>
+            </defs>
+            <path fill="url(#half-gradient)" d="M12 .587l3.668 7.568L24 9.75l-6 5.847 
+                 1.417 8.268L12 19.896l-7.417 3.969L6 15.597 
+                 0 9.75l8.332-1.595z" />
+          </svg>
+          <% } else { %>
+          <!-- Empty Star -->
+          <svg class="star empty" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 .587l3.668 7.568L24 9.75l-6 5.847 
+                 1.417 8.268L12 19.896l-7.417 3.969L6 15.597 
+                 0 9.75l8.332-1.595z" />
+          </svg>
+          <% } %>
+          <% } %>
+          <span class="show-number-rating"><%= show.rating.average %>/10</span><br />
+        </div>
+
+        <div class="genre-container">
+          <% show.genres.forEach((genre) => { %>
+          <span class="show-genre"><%= genre.toUpperCase() %></span>
+          <% }) %>
+        </div>
+      </div>
+    </a>
+    <% }) %>
+    <% } else { %>
+    <h1><%= friendlyMessage %></h1>
+    <% } %>
+
+
+  </div>
+</section>
+</main>
+</body>
+
+</html>

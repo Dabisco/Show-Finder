@@ -1,0 +1,78 @@
+<%- include("partials/header.ejs") %>
+<main class="search-page container-small">
+  <h1>Search Results for "<%= q %>"</h1>
+
+  <div class="movies-grid">
+    <% if (locals.shows) { %>
+    <% shows.forEach((item) => { %>
+    <% let stars; %>
+    <a href="/shows/<%= item.show.id %>" class="show-link">
+      <div class="card">
+        <!-- <div class="card-overlay"></div> -->
+        <span class="show-summary"><%- item.show.summary %></span>
+        <div class="show-thumbnail"><img src="<%= item.show.image?.medium %>" />
+          <div class="card-overlay"></div>
+        </div>
+        <span class="show-name"><%= item.show.name %></span>
+        <% if (item.show.rating.average) { %>
+        <% if (!Number.isInteger(item.show.rating?.average)) { %>
+        <% stars = Math.round(item.show.rating?.average); %>
+        <% } else { %>
+        <% stars = item.show.rating?.average; %>
+        <% } %>
+        <% stars = stars / 2; %>
+        <% } %>
+        <div class="show-star-ratings">
+          <% for (let i = 1; i <= 5; i++) { %>
+
+          <% if (i <= Math.floor(stars)) { %>
+          <!-- Full star -->
+          <svg class="star full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 .587l3.668 7.568L24 9.75l-6 5.847 
+                 1.417 8.268L12 19.896l-7.417 3.969L6 15.597 
+                 0 9.75l8.332-1.595z" />
+          </svg>
+          <% } else if (i === Math.ceil(stars) && stars % 1 !== 0) { %>
+          <!-- Half Star -->
+          <svg class="star half" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <defs>
+              <linearGradient id="half-gradient" x1="0" x2="100%" y1="0" y2="0">
+                <stop offset="50%" stop-color="gold" />
+                <stop offset="50%" stop-color="lightgray" />
+              </linearGradient>
+            </defs>
+            <path fill="url(#half-gradient)" d="M12 .587l3.668 7.568L24 9.75l-6 5.847 
+                 1.417 8.268L12 19.896l-7.417 3.969L6 15.597 
+                 0 9.75l8.332-1.595z" />
+          </svg>
+          <% } else { %>
+          <!-- Empty Star -->
+          <svg class="star empty" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 .587l3.668 7.568L24 9.75l-6 5.847 
+                 1.417 8.268L12 19.896l-7.417 3.969L6 15.597 
+                 0 9.75l8.332-1.595z" />
+          </svg>
+          <% } %>
+          <% } %>
+          <span class="show-number-rating"><%= item.show.rating?.average %>/10</span><br />
+        </div>
+
+        <div class="genre-container">
+          <% item.show.genres.forEach((genre) => { %>
+          <span class="show-genre"><%= genre.toUpperCase() %></span>
+          <% }) %>
+        </div>
+      </div>
+    </a>
+    <% }) %>
+    <% } else { %>
+    <h1><%= showError %></h1>
+    <% } %>
+
+
+  </div>
+
+</main>
+</body>
+
+</html>
