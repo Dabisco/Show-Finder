@@ -7,6 +7,8 @@ import { fileURLToPath } from "url";
 import path from "path";
 import session from "express-session";
 
+app.set("view-engine", "ejs");
+
 dotenv.config();
 
 const app = express();
