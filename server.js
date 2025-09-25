@@ -1,8 +1,8 @@
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
-// import liveReload from "livereload";
-// import connectLiveReload from "connect-livereload";
+import liveReload from "livereload";
+import connectLiveReload from "connect-livereload";
 import { fileURLToPath } from "url";
 import path from "path";
 import session from "express-session";
