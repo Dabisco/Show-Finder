@@ -7,8 +7,6 @@ import { fileURLToPath } from "url";
 import path from "path";
 import session from "express-session";
 
-app.set("view-engine", "ejs");
-
 dotenv.config();
 
 const app = express();
@@ -20,6 +18,8 @@ const __dirname = path.dirname(__filePath);
 const API_URL = "https://api.tvmaze.com";
 
 const isProduction = process.env.NODE_ENV === "production";
+
+app.set("view-engine", "ejs");
 
 //setup Livereload in development mode
 
