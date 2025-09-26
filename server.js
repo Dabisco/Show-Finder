@@ -1,8 +1,7 @@
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
-import liveReload from "livereload";
-import connectLiveReload from "connect-livereload";
+
 import { fileURLToPath } from "url";
 import path from "path";
 import session from "express-session";
@@ -24,6 +23,8 @@ app.set("view-engine", "ejs");
 //setup Livereload in development mode
 
 if (!isProduction) {
+  const liveReload = await import("livereload");
+  const connectLiveReload = (await import("connect-livereload")).default;
   const liveReloadServer = liveReload.createServer({
     exts: ["css", "js", "ejs"],
     liveCSS: true,
