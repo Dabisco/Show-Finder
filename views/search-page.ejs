@@ -9,11 +9,17 @@
     <a href="/shows/<%= item.show.id %>" class="show-link">
       <div class="card">
         <!-- <div class="card-overlay"></div> -->
-        <span class="show-summary"><%- item.show.summary %></span>
+        <div class="show-summary">
+          <%= item.show.truncatedSummary && item.show.truncatedSummary.length > 140
+           ? item.show.truncatedSummary.slice(0, 145) + "..."
+           : item.show.truncatedSummary %>
+        </div>
         <div class="show-thumbnail"><img src="<%= item.show.image?.medium %>" />
           <div class="card-overlay"></div>
         </div>
-        <span class="show-name"><%= item.show.name %></span>
+        <span class="show-name">
+          <%= item.show.name.length > 17 ? item.show.name.slice(0, 17) + "..." : item.show.name %>
+        </span>
         <% if (item.show.rating.average) { %>
         <% if (!Number.isInteger(item.show.rating?.average)) { %>
         <% stars = Math.round(item.show.rating?.average); %>
@@ -66,7 +72,7 @@
     </a>
     <% }) %>
     <% } else { %>
-    <h1><%= showError %></h1>
+    <h1><%= showsError %></h1>
     <% } %>
 
 

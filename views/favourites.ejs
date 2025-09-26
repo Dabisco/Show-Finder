@@ -8,7 +8,10 @@
     <a href="/shows/<%= show.id %>" class="show-link">
       <div class="card">
         <!-- <div class="card-overlay"></div> -->
-        <span class="show-summary"><%- show.summary %></span>
+        <span class="show-summary">
+          <%= show.truncatedSummary && show.truncatedSummary.length > 145
+          ? show.truncatedSummary.slice(0, 145) + "..." : show.truncatedSummary  %>
+        </span>
         <div class="show-thumbnail"><img src="<%= show.image?.medium %>" />
           <div class="card-overlay"></div>
         </div>

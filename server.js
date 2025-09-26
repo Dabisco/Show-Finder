@@ -1,8 +1,8 @@
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
-// import liveReload from "livereload";
-// import connectLiveReload from "connect-livereload";
+import liveReload from "livereload";
+import connectLiveReload from "connect-livereload";
 import { fileURLToPath } from "url";
 import path from "path";
 import session from "express-session";
@@ -84,11 +84,19 @@ function errorHandler(error) {
   return errorText;
 }
 
+function stripTags(htmlText) {
+  return htmlText.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
 //Route Handlers
 app.get("/", async (req, res) => {
   try {
     const response = await axios.get(`${API_URL}/shows?page=0`);
-    const shows = response.data;
+    let shows = response.data;
+    shows.forEach((show) => {
+      const truncatedSummary = stripTags(show.summary || "");
+      show.truncatedSummary = truncatedSummary;
+    });
     res.render("index.ejs", { shows });
   } catch (error) {
     console.log(error);
@@ -143,7 +151,11 @@ app.get("/search", async (req, res) => {
 
   try {
     const response = await axios.get(`${API_URL}/search/shows`, config);
-    const shows = response.data;
+    let shows = response.data;
+    shows.forEach((searchItem) => {
+      const truncatedSummary = stripTags(searchItem.show.summary || "");
+      searchItem.show.truncatedSummary = truncatedSummary;
+    });
     res.render("search-page.ejs", { shows, q });
   } catch (error) {
     let showsError = errorHandler(error);
@@ -158,11 +170,13 @@ async function retrieveFavoriteShows(idArray) {
     return axios.get(`${API_URL}/shows/${id}`);
   });
 
-  const responses = await Promise.allSettled(requests);
+  let responses = await Promise.allSettled(requests);
 
   responses.forEach((response, index) => {
     const id = idArray[index];
     if (response.status === "fulfilled") {
+      const truncatedSummary = stripTags(response.value.data.summary || "");
+      response.value.data.truncatedSummary = truncatedSummary;
       showArray.push(response.value.data);
     } else {
       showArray.push({
@@ -185,6 +199,10 @@ app.get("/favourites", async (req, res) => {
   const shows = await retrieveFavoriteShows(ids);
 
   res.render("favourites.ejs", { shows });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about.ejs");
 });
 
 app.listen(port, () => {
