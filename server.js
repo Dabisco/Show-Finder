@@ -35,7 +35,7 @@ const API_URL = "https://api.tvmaze.com";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-app.set("view-engine", "ejs");
+app.set("view engine", "ejs");
 
 //setup Livereload in development mode
 
