@@ -78,10 +78,10 @@ let redisStore = new RedisStore({ client: redisClient });
 
 app.use(
   session({
-    store: redisStore,
+    //store: redisStore,
     secret: process.env.SESSION_SECRET || "super-secret-key",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       secure: isProduction ? true : false,
       httpOnly: true,
