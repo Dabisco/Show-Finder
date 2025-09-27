@@ -218,6 +218,7 @@ app.post("/favorites-builder", (req, res) => {
 });
 
 app.get("/favourites", async (req, res) => {
+  console.log("Session at /favourites:", req.session); // check for persistence
   const ids = req.session.favorites?.currentFavorites || [];
   const shows = await retrieveFavoriteShows(ids);
 
