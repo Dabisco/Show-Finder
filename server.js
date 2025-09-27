@@ -1,7 +1,8 @@
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
-
+import { createClient } from "redis";
+import { RedisStore } from "connect-redis";
 import { fileURLToPath } from "url";
 import path from "path";
 import session from "express-session";
@@ -10,6 +11,22 @@ dotenv.config();
 
 const app = express();
 const port = 3007;
+
+const redisClient = createClient({
+  username: "default",
+  password: process.env.REDIS_PASSWORD,
+
+  socket: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+  },
+});
+
+redisClient.on("error", (err) => {
+  console.log("Redis client Error: ", err);
+});
+
+await redisClient.connect();
 
 const __filePath = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filePath);
@@ -51,8 +68,12 @@ if (!isProduction) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+let redisStore = new RedisStore({ client: redisClient });
+
 app.use(
   session({
+    store: redisStore,
     secret: process.env.SESSION_SECRET || "super-secret-key",
     resave: false,
     saveUninitialized: false,
