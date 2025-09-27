@@ -19,7 +19,6 @@ const redisClient = createClient({
   socket: {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
-    tls: true,
   },
 });
 
@@ -28,6 +27,7 @@ redisClient.on("error", (err) => {
 });
 
 await redisClient.connect();
+console.log("Redis connected:", await redisClient.ping()); // should print "PONG"
 
 const __filePath = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filePath);
