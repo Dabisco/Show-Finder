@@ -233,6 +233,11 @@ app.get("/about", (req, res) => {
   res.render("about.ejs");
 });
 
+app.get("/test-session", (req, res) => {
+  req.session.hello = "world";
+  res.send("Session set!");
+});
+
 app.listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
