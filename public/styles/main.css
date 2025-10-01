@@ -9,6 +9,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 5;
+  /* border: 2px solid red; */
 }
 
 .navbar {
@@ -16,6 +17,7 @@ header {
   display: flex;
   gap: 3rem;
   align-items: center;
+  /* border: 1px solid red; */
 }
 
 .logo {
@@ -50,6 +52,10 @@ header {
   font-size: 0.9rem;
 }
 
+.nav-links a {
+  display: block;
+}
+
 .nav-links .btn {
   padding: 0.3rem 0.5rem;
   border-radius: 0.3rem;
@@ -64,6 +70,43 @@ header {
   background-color: #dc2626;
 }
 
+.hamburger-container {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+}
+
+.hamburger {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.6rem;
+  border-radius: 0.37rem;
+  display: none;
+  cursor: pointer;
+}
+
+.hamburger span {
+  background-color: rgb(156 163 175 / 1);
+  display: block;
+  width: 1.5rem;
+  /* margin-bottom: 0.5rem; */
+  height: 0.1rem;
+}
+
+.hamburger:hover {
+  background-color: #374151;
+}
+
+.hamburger:hover span {
+  background-color: white;
+}
+
 .theme-icon {
   /* width: 2rem; */
   height: 2.5rem;
@@ -71,12 +114,13 @@ header {
   color: rgb(156 163 175 / 1);
   /* border: 1px solid; */
   padding: 0.5rem;
+  border-radius: 50%;
   transition: background-color 0.15s, border-radius 0.15s;
 }
 
 .theme-icon:hover {
   background-color: #374151;
-  border-radius: 50%;
+  color: white;
 }
 
 .theme-icon:focus {
@@ -93,7 +137,7 @@ header {
   text-align: center;
   color: white;
   font-size: 3rem;
-  margin-top: 7rem;
+  /* margin-top: 7rem; */
 }
 
 .home-title-text {
@@ -108,7 +152,7 @@ header {
   width: 42rem;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 5rem;
+  /* margin-bottom: 5rem; */
   /* border: 1px solid; */
 }
 
@@ -230,7 +274,7 @@ header {
 
 .show-summary {
   height: 12rem;
-  /* border: 1px solid red; */
+  border: 1px solid red;
   position: absolute;
   top: 15%;
   /* transform: translateY(-50%); */
@@ -369,20 +413,20 @@ header {
 .show-hero .show-year {
   color: rgb(209 213 219 / 1);
   position: absolute;
-  left: 250px;
+  left: 267px;
   bottom: 15px;
 }
 
 .show-hero .show-page-stars {
   position: absolute;
-  bottom: 15px;
-  left: 300px;
+  bottom: 14px;
+  left: 315px;
 }
 
 .show-hero .show-number-rating {
   position: absolute;
   bottom: 18px;
-  left: 410px;
+  left: 420px;
   font-size: 0.8rem;
 }
 
@@ -395,6 +439,10 @@ header {
 .container-small.genre .genre-container {
   display: flex;
   gap: 1rem;
+  /* border: 1px solid red; */
+}
+
+.container-small.genre .genre-container span {
 }
 
 .container-small.genre .unfavorited {
